@@ -1,0 +1,35 @@
+The task was simple:
+Find how many tweets each user posted in 2022.
+
+
+Group those results to see how many users fall into each tweet-count bucket.
+
+
+🔍 How I approached it
+Step 1 — Calculate tweets per user
+ I first grouped the data by user_id and counted how many tweets each person posted.
+ This gave me a column called tweets_num, which represents each user’s total tweets in 2022.
+Step 2 — Use that result as a subquery
+ Once I had tweets_num, I wrapped that result in a subquery.
+ Then I grouped again, this time by the tweet count itself, to find how many users fall into each category (1 tweet, 2 tweets, 3 tweets, etc).
+This second grouping creates the final histogram.
+🧩 Final SQL Solution
+select distinct t.tweets_num as tweet_bucket,
+       count(t.user_id) as users_num
+from (
+    select 
+      user_id, 
+      count(tweet_id) as tweets_num
+    from tweets
+    where extract(year from tweet_date) = 2022
+    group by user_id
+) as t
+group by 1
+order by 1;
+
+💡 Key learning
+This type of problem becomes much easier when you think in two layers:
+Layer 1: summarize activity per user
+
+
+Layer 2: summarize how many users fall into each activity level
