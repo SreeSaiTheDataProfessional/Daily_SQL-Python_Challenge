@@ -1,0 +1,31 @@
+📘 Explanation for GitHub (save this in explanation.md)
+Understanding the Two Sum solution
+
+The problem asks for two indices whose values add up to the target.
+Instead of using a slow double loop, this solution uses a dictionary for instant lookups.
+
+Step-by-step logic
+
+1. Create a dictionary (numMap)
+Keys → numbers from the list
+Values → their indices
+
+This lets us check very quickly whether a needed complement exists.
+
+2. Loop through the list again
+For each number:
+
+Compute complement = target - nums[i]
+
+Check if complement exists in the dictionary
+
+Make sure it's not the same index
+
+Return the pair of indices
+
+This reduces the time complexity from O(n²) to O(n).
+
+Why this works well
+
+Dictionary lookups are constant time, which makes this approach fast even for large input sizes.
+It’s a clean example of how using the right data structure simplifies your logic.
