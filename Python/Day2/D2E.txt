@@ -1,0 +1,42 @@
+Explanation
+
+The goal is to remove duplicate values from a sorted linked list.
+
+How the code works
+n = head
+
+
+n is a pointer that moves through the list.
+
+while n and n.next:
+
+
+We loop as long as there is a current node and a next node to compare.
+
+Duplicate check
+if n.val == n.next.val:
+    n.next = n.next.next
+
+
+If the current value and next value are the same, we skip the next node.
+This effectively removes the duplicate from the list.
+
+We do not move n forward here, because after removing one duplicate, the next node might still be a duplicate.
+
+Move forward when values differ
+else:
+    n = n.next
+
+
+If it’s not a duplicate, just continue to the next node.
+
+Return the cleaned list
+return head
+
+What it achieves
+
+Removes consecutive duplicates in a sorted list.
+
+Runs in O(n) time and O(1) space.
+
+Modifies the list in-place using pointer adjustments.
