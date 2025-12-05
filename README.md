@@ -11,4 +11,8 @@
 |  |
 | ------- |
 | [0001-two-sum](https://github.com/SreeSaiTheDataProfessional/Daily_SQL-Python_Challenge/tree/master/0001-two-sum) |
+## Linked List
+|  |
+| ------- |
+| [0083-remove-duplicates-from-sorted-list](https://github.com/SreeSaiTheDataProfessional/Daily_SQL-Python_Challenge/tree/master/0083-remove-duplicates-from-sorted-list) |
 <!---LeetCode Topics End-->
