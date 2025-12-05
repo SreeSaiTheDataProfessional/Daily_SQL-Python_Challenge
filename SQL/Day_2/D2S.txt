@@ -1,0 +1,9 @@
+with cte as(
+select user_id,spend,transaction_date,
+       rank() over(partition by user_id order by transaction_date)as rank_num
+from transactions
+)
+select c.user_id,c.spend,c.transaction_date
+from cte as c
+where c.rank_num=3
+

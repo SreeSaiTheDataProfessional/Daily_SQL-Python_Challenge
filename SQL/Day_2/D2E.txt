@@ -1,0 +1,16 @@
+What this query does
+
+Inside the CTE:
+
+For each user, it sorts their transactions by date.
+
+It gives each transaction a rank:
+1 = earliest, 2 = second earliest, 3 = third earliest, etc.
+
+Outer query:
+
+Selects only the rows where rank_num = 3.
+
+Meaning
+
+➡️ This returns the 3rd transaction (by date) for every user.
