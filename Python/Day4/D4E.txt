@@ -1,0 +1,57 @@
+1. Create an empty result array
+res = [0] * len(nums)
+
+
+You prepare a list filled with zeros.
+This will eventually hold the squared numbers in sorted order.
+
+2. Set two pointers
+left = 0
+right = len(nums) - 1
+
+
+left starts at the beginning
+
+right starts at the end
+
+These two will help compare the biggest values (by absolute value) on both ends.
+
+3. Fill the result array from the back
+for i in range(len(nums)-1, -1, -1):
+
+
+You fill res starting from the last index (i = end) down to the front.
+
+Why?
+Because the largest square goes at the end of the sorted list.
+
+4. Compare absolute values
+if abs(nums[left]) > abs(nums[right]):
+
+
+Whichever side has the number with the bigger absolute value:
+
+That number, when squared, will be larger
+
+So that square should be placed at position i
+
+5. Place the square and move the pointer
+If left is bigger:
+res[i] = nums[left] ** 2
+left += 1
+
+
+You use the left value, square it, and move left forward.
+
+Otherwise:
+res[i] = nums[right] ** 2
+right -= 1
+
+
+Use the right value and move right backward.
+
+6. After loop finishes
+
+All positions in res are filled in sorted (non-decreasing) order.
+
+return res
