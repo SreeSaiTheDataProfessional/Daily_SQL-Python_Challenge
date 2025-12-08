@@ -1,0 +1,82 @@
+✅ Step-by-step explanation
+1. CTE: open_and_send
+
+This part pulls only the rows you care about.
+
+WITH open_and_send AS (
+    SELECT 
+        a.user_id,
+        ab.age_bucket,
+        a.time_spent,
+        a.activity_type
+    FROM activities a
+    JOIN age_breakdown ab 
+        ON a.user_id = ab.user_id
+    WHERE a.activity_type IN ('send', 'open')
+)
+
+
+What it does:
+
+Combines activities with age_breakdown so every row now includes the user’s age bucket
+
+Filters the activities table to keep only send and open actions
+
+Keeps four simple columns:
+
+user_id
+
+age_bucket
+
+time_spent
+
+activity_type
+
+Think of this CTE as creating a clean, small table containing only the actions you need.
+
+2. Final SELECT
+
+Now you calculate percentages from the cleaned data.
+
+SELECT 
+    age_bucket,
+    ROUND(
+        100.0 * SUM(time_spent) FILTER (WHERE activity_type = 'send')
+        / SUM(time_spent), 
+        2
+    ) AS send_perc,
+    ROUND(
+        100.0 * SUM(time_spent) FILTER (WHERE activity_type = 'open')
+        / SUM(time_spent), 
+        2
+    ) AS open_perc
+FROM open_and_send
+GROUP BY age_bucket
+ORDER BY age_bucket;
+
+
+What this part does:
+
+Groups all users by age bucket (18–24, 25–34, etc.)
+
+Inside each age group:
+
+It adds up the time spent on send actions
+
+It adds up the time spent on open actions
+
+It also adds up all time spent in that age bucket
+
+Then it computes:
+
+(send time / total time) * 100
+
+(open time / total time) * 100
+
+Rounds both to 2 decimal places
+
+Sorts results by age bucket
+
+So the final table tells you:
+
+For each age group, what percentage of their total time went to send and what percentage went to open.
