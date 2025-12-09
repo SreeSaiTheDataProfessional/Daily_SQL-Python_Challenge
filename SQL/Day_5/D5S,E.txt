@@ -1,0 +1,77 @@
+Solution:
+
+with cte as
+(select category,
+       product,
+       sum(spend) as total_spend,
+       dense_rank() over(partition by category order by sum(spend) desc) as ranking
+from product_spend
+where extract(year from transaction_date)=2022
+group by 1,2)
+
+select category,
+       product,
+       total_spend
+from cte 
+where ranking <=2
+order by 1,3 DESC
+
+Explanation:
+
+1. CTE (with cte as …)
+
+Inside the CTE, you are preparing a summary table.
+
+You take each category + product pair and:
+
+calculate total_spend for that product in 2022
+
+assign a ranking within each category, where:
+
+the product with the highest spend gets rank 1
+
+second highest gets rank 2
+
+and so on
+
+You use dense_rank() so ties get the same rank.
+
+This part:
+
+sum(spend) as total_spend,
+dense_rank() over(partition by category order by sum(spend) desc) as ranking
+
+
+means:
+“Within each category, rank products by their total spend from highest to lowest.”
+
+2. Filtering year
+where extract(year from transaction_date) = 2022
+
+
+Only keeps transactions from the year 2022.
+
+3. Grouping
+group by 1,2
+
+
+This means group by:
+
+category (column 1)
+
+product (column 2)
+
+So you get one row per product per category with its total spend.
+
+4. Main query
+select category, product, total_spend
+from cte
+where ranking <= 2
+order by 1,3 desc
+
+
+This takes the ranked results and keeps only:
+
+top 2 products in each category
+
+sorted by category first, and then by spend in descending order
